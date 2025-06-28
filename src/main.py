@@ -1,6 +1,6 @@
 import os
 from fastapi import Depends, FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from .ai.gemini import Gemini
 from .auth.dependencies import get_user_identifier
 from .auth.throttling import apply_rate_limit
@@ -30,7 +30,7 @@ ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
 
 # --- Pydantic Models ---
 class ChatRequest(BaseModel):
-    prompt: str
+    prompt: str = Field(..., min_length=1, max_length=5000, description="User prompt for the AI")
 
 
 class ChatResponse(BaseModel):

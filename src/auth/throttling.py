@@ -3,6 +3,9 @@ from collections import defaultdict
 
 from fastapi import HTTPException, status
 
+
+
+#track of how many request user id has made, block if exceeds that limit
 # --- Constants ---
 # For authenticated users
 AUTH_RATE_LIMIT = 5

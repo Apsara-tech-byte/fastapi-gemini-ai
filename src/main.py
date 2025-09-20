@@ -5,7 +5,7 @@ from .ai.gemini import Gemini
 from .auth.dependencies import get_user_identifier
 from .auth.throttling import apply_rate_limit
 
-
+#all endpoints and logic here
 # --- App Initialization ---
 app = FastAPI()
 
@@ -30,15 +30,15 @@ ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
 
 # --- Pydantic Models ---
 class ChatRequest(BaseModel):
-    prompt: str
+    prompt: str #expect a JSON body like {'prompt':'...'}
 
 
 class ChatResponse(BaseModel):
-    response: str
+    response: str #return a JSON body like {'response':'...'}
 
 
 # --- API Endpoints ---
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat", response_model=ChatResponse) #checks response resembles chat response structure
 async def chat(request: ChatRequest, user_id: str = Depends(get_user_identifier)):
     apply_rate_limit(user_id)
     response_text = ai_platform.chat(request.prompt)
